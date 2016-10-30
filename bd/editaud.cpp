@@ -5,8 +5,11 @@ EditAud::EditAud(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditAud)
 {
+
     ui->setupUi(this);
     setuptable();
+    setupcombo();
+    ui->lineEdit_3->setText(QString::number(ui->comboBox->currentIndex()));
 }
 
 EditAud::~EditAud()
@@ -21,22 +24,27 @@ void EditAud::setuptable()
     ui->tableView->resizeColumnsToContents();
     ui->tableView->show();
 }
-void EditAud::editaud()
+
+void EditAud::setupcombo()
 {
     query3.prepare("SELECT count(id) from Employee");
     query3.exec();
     if(query3.next()) count=query3.value(0).toInt();
-    query3.prepare("SELECT name from Employee");
-   // query4.prepare("SELECT id from Employee");
+    query3.prepare("SELECT name, id from Employee");
     query3.exec();
-   // query4.exec();
     while(query3.next())
     {
        name=query3.value(0).toString();
-     //   id=query4.value(0).toInt();
-        ui->comboBox->addItem(name);
-     //   ui->comboBox->setCurrentIndex(id);
+       id=query3.value(1).toInt();
+       ui->lineEdit_2->setText(QString::number(id));
+       ui->comboBox->addItem(name);
+      // ui->comboBox->setCurrentIndex(id);
     }
+}
+
+void EditAud::editaud()
+{
+
 }
 void EditAud::deleteaud()
 {
@@ -47,6 +55,11 @@ void EditAud::deleteaud()
         model3->setQuery("DelAud(1)");
         setuptable();
     }
+}
+
+void EditAud::addaud()
+{
+
 }
 
 void EditAud::on_pushButton_4_clicked()

@@ -21,6 +21,7 @@ public:
     void deleteaud();
     void editaud();
     void setuptable();
+    void setupcombo();
 
 private slots:
     void on_pushButton_4_clicked();
